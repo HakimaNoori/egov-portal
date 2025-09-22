@@ -14,6 +14,7 @@ import ManageDepartments from "./pages/admin/ManageDepartments";
 import ManageServices from "./pages/admin/ManageServices";
 import ManageUsers from "./pages/admin/ManageUsers";
 import Reports from "./pages/admin/Reports";
+import Register from "./pages/citizen/register";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
             <Route path="/citizen/apply" element={<ApplyService />} />
             <Route path="/citizen/requests" element={<RequestStatus />} />
             <Route path="/citizen/profile" element={<Profile />} />
+            <Route path="/citizen/register" element={<Register />} />
             {/* Officer Routes */}
             <Route path="/officer/login" element={<OfficerLogin />} />
             <Route path="/officer/dashboard" element={<OfficerDashboard />} />
