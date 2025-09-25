@@ -17,6 +17,7 @@ import ManageServices from "./pages/admin/ManageServices";
 import ManageUsers from "./pages/admin/ManageUsers";
 import Reports from "./pages/admin/Reports";
 import Register from "./pages/citizen/register";
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
@@ -39,7 +40,10 @@ function App() {
               <Route path="/officer/requests/:id" element={<RequestDetail />} />
               {/* Admin Routes */}
               <Route path="/admin/dashboard" element={<AdminDashboard />} />
-              <Route path="/admin/departments" element={<ManageDepartments />} />
+              <Route
+                path="/admin/departments"
+                element={<ManageDepartments />}
+              />
               <Route path="/admin/services" element={<ManageServices />} />
               <Route path="/admin/users" element={<ManageUsers />} />
               <Route path="/admin/reports" element={<Reports />} />
@@ -49,6 +53,18 @@ function App() {
           <Footer />
         </div>
       </BrowserRouter>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </Provider>
   );
 }

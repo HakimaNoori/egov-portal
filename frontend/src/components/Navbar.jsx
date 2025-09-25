@@ -14,7 +14,7 @@ function Navbar() {
     <nav className="bg-blue-600 text-white p-4">
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="text-2xl font-bold">
-          E-Gov Portal
+          <img src="/public/vite.svg" alt="Logo" className="h-8 inline-block mr-2" />
         </Link>
         <div className="space-x-4">
           {userRole === "citizen" && (
