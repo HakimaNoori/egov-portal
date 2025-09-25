@@ -1,13 +1,19 @@
-// Register.jsx
-import React, { useState } from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useRegisterMutation } from "../../redux/services/authApiSlice";
+import { toast } from "react-toastify";
+import { setCredentials } from "../../redux/services/authSlice";
 
 export default function Register() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
+    role: "citizen",
   });
-  const [status, setStatus] = useState("");
+
+  const dispatch = useDispatch();
+  const [register, { isLoading }] = useRegisterMutation();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -15,19 +21,20 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setStatus("Submitting...");
     try {
-      const res = await fetch("http://localhost:5000/api/auth/register", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      const response = await register(formData).unwrap();
+
+      dispatch(setCredentials({ user: response.user, token: response.accessToken }));
+
+      toast.success("Registration successful ✅");
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        role: "citizen",
       });
-      if (!res.ok) throw new Error("Registration failed");
-      setStatus("Registration successful ✅");
     } catch (err) {
-      setStatus(err.message);
+      toast.error(err?.data?.message || "Registration failed");
     }
   };
 
@@ -61,11 +68,11 @@ export default function Register() {
         <button
           className="bg-blue-500 text-white px-4 py-2 rounded"
           type="submit"
+          disabled={isLoading}
         >
-          Register
+          {isLoading ? "Registering..." : "Register"}
         </button>
       </form>
-      {status && <div className="mt-3 text-sm">{status}</div>}
     </div>
   );
 }

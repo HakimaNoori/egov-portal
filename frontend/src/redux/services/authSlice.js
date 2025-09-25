@@ -19,7 +19,7 @@ export const authSlice = createSlice({
             state.token = null;
         },
     },
-}); 
+});
 
 export const { setCredentials, logout } = authSlice.actions;
 

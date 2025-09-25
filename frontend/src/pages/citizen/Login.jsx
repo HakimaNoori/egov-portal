@@ -1,11 +1,15 @@
-// src/pages/citizen/Login.jsx
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { useLoginMutation } from "../../redux/services/authApiSlice";
+import { setCredentials } from "../../redux/services/authSlice";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 
-function CitizenLogin() {
+export default function CitizenLogin() {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [message, setMessage] = useState("");
+  const [login, { isLoading }] = useLoginMutation();
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleInputChange = (e) => {
@@ -15,11 +19,12 @@ function CitizenLogin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/api/login/citizen", formData);
-      // Save token or session
+      const response = await login(formData).unwrap();
+      dispatch(setCredentials({ user: response.user, token: response.accessToken }));
+      toast.success("Login successful ✅");
       navigate("/citizen/dashboard");
-    } catch (error) {
-      setMessage("Invalid credentials. Please try again.");
+    } catch (err) {
+      toast.error(err?.data?.message || "Invalid credentials. Please try again.");
     }
   };
 
@@ -61,10 +66,10 @@ function CitizenLogin() {
         <button
           type="submit"
           className="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700 font-semibold w-full"
+          disabled={isLoading}
         >
-          Login
+          {isLoading ? "Logging in..." : "Login"}
         </button>
-        {message && <p className="mt-4 text-center text-red-600">{message}</p>}
       </form>
       <p className="mt-4 text-center">
         Don't have an account?{" "}
@@ -72,10 +77,7 @@ function CitizenLogin() {
           Register here
         </a>
         .
-      </p>{" "}
-      {/* Assume register page exists */}
+      </p>
     </div>
   );
 }
-
-export default CitizenLogin;
