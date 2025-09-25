@@ -5,7 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 
 // Routes
-import authRoutes from "./src/routes/auth.js";
+import authRoutes from "./src/routes/authRoutes.js";
 import userRoutes from "./src/routes/users.js";
 import departmentRoutes from "./src/routes/departments.js";
 import serviceRoutes from "./src/routes/services.js";
@@ -13,10 +13,12 @@ import requestRoutes from "./src/routes/requests.js";
 import documentRoutes from "./src/routes/documents.js";
 import paymentRoutes from "./src/routes/payments.js";
 import notificationRoutes from "./src/routes/notifications.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
 const app = express();
+app.use(cookieParser());
 const PORT = process.env.PORT || 5000;
 
 // Middleware
