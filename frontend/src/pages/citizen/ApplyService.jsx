@@ -1,5 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
+import { useUploadDocumentMutation } from "../../redux/services/documentApiSlice";
+import { toast } from "react-toastify";
 
 function ApplyService() {
   const [formData, setFormData] = useState({
@@ -8,7 +9,7 @@ function ApplyService() {
     details: "",
   });
   const [files, setFiles] = useState([]);
-  const [message, setMessage] = useState("");
+  const [uploadDocument, { isLoading }] = useUploadDocumentMutation();
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -21,27 +22,22 @@ function ApplyService() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const data = new FormData();
+    data.append("request_id", "3");
     data.append("department", formData.department);
     data.append("service", formData.service);
     data.append("details", formData.details);
     for (let i = 0; i < files.length; i++) {
-      data.append("documents", files[i]);
+      data.append("file", files[i]);
     }
 
     try {
-      // Replace with your backend API endpoint
-      await axios.post("/api/requests", data, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setMessage(
-        "Application submitted successfully! Redirecting to payment..."
-      );
+      await uploadDocument(data).unwrap();
+      toast.success("Application submitted successfully! Redirecting to payment...");
       setTimeout(() => {
-        // Simulate payment success page
         window.location.href = "/citizen/payment-success";
       }, 2000);
     } catch (error) {
-      setMessage("Error submitting application.");
+      toast.error("Error submitting application.");
     }
   };
 
@@ -114,10 +110,10 @@ function ApplyService() {
         <button
           type="submit"
           className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+          disabled={isLoading}
         >
-          Submit Application
+          {isLoading ? "Submitting..." : "Submit Application"}
         </button>
-        {message && <p className="mt-4 text-green-600">{message}</p>}
       </form>
     </div>
   );
