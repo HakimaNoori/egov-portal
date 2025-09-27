@@ -1,54 +1,53 @@
-// src/models/User.js
-import { pool } from "../db.js";
+// models/User.js
+import { DataTypes } from "sequelize";
+import sequelize from "../db.js"; // import your sequelize instance
 
-// فقط ذخیره هش آماده در دیتابیس
-export const createUser = async ({
-  name,
-  email,
-  password,
-  role,
-  department_id,
-}) => {
-  const result = await pool.query(
-    `INSERT INTO users (name, email, password, role, department_id)
-     VALUES ($1, $2, $3, $4, $5) RETURNING *`,
-    [name, email, password, role, department_id] // ← پسورد هش‌شده اینجا میاد
-  );
-  return result.rows[0];
-};
-
-export const getUserByEmail = async (email) => {
-  const result = await pool.query(`SELECT * FROM users WHERE email = $1`, [
-    email,
-  ]);
-  return result.rows[0];
-};
-
-export const getUserById = async (id) => {
-  const result = await pool.query(`SELECT * FROM users WHERE id = $1`, [id]);
-  return result.rows[0];
-};
-
-export const getAllUsers = async () => {
-  const result = await pool.query(`SELECT * FROM users`);
-  return result.rows;
-};
-
-export const updateUser = async (id, data) => {
-  const fields = [];
-  const values = [];
-  let index = 1;
-
-  for (let key in data) {
-    fields.push(`${key} = $${index}`);
-    values.push(data[key]);
-    index++;
+const User = sequelize.define(
+  "User",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+      validate: {
+        isEmail: true,
+      },
+    },
+    password_hash: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    role: {
+      type: DataTypes.ENUM("citizen", "officer", "dhead", "admin"),
+      allowNull: false,
+      defaultValue: "citizen",
+    },
+    department_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "Departments", // assumes Departments table exists
+        key: "id",
+      },
+    },
+    created_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+  },
+  {
+    tableName: "users",
+    timestamps: false,
   }
+);
 
-  values.push(id);
-  const query = `UPDATE users SET ${fields.join(
-    ", "
-  )} WHERE id = $${index} RETURNING *`;
-  const result = await pool.query(query, values);
-  return result.rows[0];
-};
+export default User;

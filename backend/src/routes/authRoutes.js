@@ -1,20 +1,35 @@
 import express from "express";
 import {
-  register,
-  login,
-  refreshToken,
-  logout,
-} from "../controllers/authController.js";
+  registerCitizen,
+  createUserByAdmin,
+  loginUser,
+  getAllUsers,
+} from "../controllers/userController.js";
+import { protect, authorize } from "../middleware/auth.js";
+
 
 const router = express.Router();
 
-router.post("/register", register);
-router.post("/login", login);
+// Citizen self-register
+router.post("/register", registerCitizen);
 
-// refresh endpoint (GET or POST, both work; GET is common)
-router.get("/refresh", refreshToken);
+// Login (any user)
+router.post("/login", loginUser);
 
-// logout endpoint
-router.post("/logout", logout);
+// Admin creates officer/dhead/admin
+router.post(
+  "/create",
+  protect,
+  authorize("admin"), // only admin can create
+  createUserByAdmin
+);
+
+// Admin get all users
+router.get(
+  "/",
+  protect,
+  authorize("admin"), // only admin can see all
+  getAllUsers
+);
 
 export default router;

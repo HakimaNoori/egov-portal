@@ -1,19 +1,44 @@
+// routes/users.js
 import express from "express";
-import {
-  getUser,
-  listUsers,
-  updateUserController,
-} from "../controllers/userController.js";
+import { authenticate, authorize } from "../middleware/auth.js";
+import * as usersController from "../controllers/userController.js";
 
 const router = express.Router();
 
-// دریافت یک کاربر با ID
-router.get("/:id", getUser);
+// 🔹 Registration (citizen self-register)
+router.post("/register", usersController.registerCitizen);
 
-// لیست همه کاربران
-router.get("/", listUsers);
+// 🔹 Login (all roles)
+router.post("/login", usersController.login);
 
-// بروزرسانی کاربر
-router.put("/:id", updateUserController);
+// 🔹 Get own profile (all roles)
+router.get("/me", authenticate, usersController.getProfile);
+
+// 🔹 Create user (dhead restricted, admin full access)
+router.post(
+  "/create",
+  authenticate,
+  authorize("dhead"), // dhead+admin can access
+  usersController.createUser
+);
+
+// 🔹 Update user (dhead restricted, admin full access)
+router.put(
+  "/:id",
+  authenticate,
+  authorize("dhead"), // dhead+admin can access
+  usersController.updateUser
+);
+
+// 🔹 Delete user (admin only)
+router.delete(
+  "/:id",
+  authenticate,
+  authorize("admin"),
+  usersController.deleteUser
+);
+
+// 🔹 List all users (admin only)
+router.get("/", authenticate, authorize("admin"), usersController.listUsers);
 
 export default router;
