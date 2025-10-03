@@ -1,25 +1,35 @@
-import { pool } from "../db.js";
+// models/Notification.js
+import { DataTypes } from "sequelize";
+import sequelize from "../db.js";
+import User from "./User.js";
+import Request from "./Request.js";
 
-export const createNotification = async ({ user_id, message }) => {
-  const result = await pool.query(
-    `INSERT INTO notifications (user_id, message) VALUES ($1, $2) RETURNING *`,
-    [user_id, message]
-  );
-  return result.rows[0];
-};
+const Notification = sequelize.define(
+  "Notification",
+  {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    user_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "Users", key: "id" },
+    },
+    request_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: { model: "Requests", key: "id" },
+    },
+    message: { type: DataTypes.STRING, allowNull: false },
+    read_status: { type: DataTypes.BOOLEAN, defaultValue: false },
+    created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+  },
+  { tableName: "Notifications", timestamps: false }
+);
 
-export const getNotifications = async (user_id) => {
-  const result = await pool.query(
-    `SELECT * FROM notifications WHERE user_id=$1`,
-    [user_id]
-  );
-  return result.rows;
-};
+// Relations
+User.hasMany(Notification, { foreignKey: "user_id", as: "notifications" });
+Notification.belongsTo(User, { foreignKey: "user_id" });
 
-export const markNotificationRead = async (id) => {
-  const result = await pool.query(
-    `UPDATE notifications SET read=true WHERE id=$1 RETURNING *`,
-    [id]
-  );
-  return result.rows[0];
-};
+Request.hasMany(Notification, { foreignKey: "request_id" });
+Notification.belongsTo(Request, { foreignKey: "request_id" });
+
+export default Notification;
