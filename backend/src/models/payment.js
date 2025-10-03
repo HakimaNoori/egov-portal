@@ -1,22 +1,34 @@
-import { pool } from "../db.js";
+// src/models/Payment.js
+import { DataTypes } from "sequelize";
+import sequelize from "../db.js";
+import Request from "./Request.js";
 
-export const createPayment = async ({ request_id, amount, status }) => {
-  const result = await pool.query(
-    `INSERT INTO payments (request_id, amount, status) VALUES ($1, $2, $3) RETURNING *`,
-    [request_id, amount, status]
-  );
-  return result.rows[0];
-};
+const Payment = sequelize.define(
+  "Payment",
+  {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    request_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "Requests", key: "id" },
+    },
+    amount: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
+    },
+    method: {
+      type: DataTypes.ENUM("credit_card", "paypal", "bank_transfer", "onsite"),
+      allowNull: false,
+    },
+    status: {
+      type: DataTypes.ENUM("pending", "confirmed", "rejected"),
+      defaultValue: "pending",
+    },
+  },
+  { tableName: "payments", timestamps: true }
+);
 
-export const getPayments = async () => {
-  const result = await pool.query(`SELECT * FROM payments`);
-  return result.rows;
-};
+// relations
+Payment.belongsTo(Request, { foreignKey: "request_id" });
 
-export const updatePaymentStatus = async (id, status) => {
-  const result = await pool.query(
-    `UPDATE payments SET status=$1 WHERE id=$2 RETURNING *`,
-    [status, id]
-  );
-  return result.rows[0];
-};
+export default Payment;
