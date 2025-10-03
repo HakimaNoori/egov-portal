@@ -1,7 +1,7 @@
 // routes/users.js
 import express from "express";
-import { authenticate, authorize } from "../middleware/auth.js";
-import * as usersController from "../controllers/userController.js";
+import { authenticate, authorize } from "../middlewares/auth.js";
+import * as usersController from "../controllers/usersController.js";
 
 const router = express.Router();
 
@@ -39,6 +39,11 @@ router.delete(
 );
 
 // 🔹 List all users (admin only)
-router.get("/", authenticate, authorize("admin"), usersController.listUsers);
+router.get(
+  "/",
+  authenticate,
+  authorize("admin"),
+  usersController.listUsers
+);
 
 export default router;

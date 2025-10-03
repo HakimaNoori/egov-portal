@@ -1,6 +1,6 @@
 // models/User.js
 import { DataTypes } from "sequelize";
-import sequelize from "../db.js"; // import your sequelize instance
+import sequelize from "../db.js";
 
 const User = sequelize.define(
   "User",
@@ -35,7 +35,7 @@ const User = sequelize.define(
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: "Departments", // assumes Departments table exists
+        model: "Departments",
         key: "id",
       },
     },
@@ -45,7 +45,7 @@ const User = sequelize.define(
     },
   },
   {
-    tableName: "users",
+    tableName: "Users",
     timestamps: false,
   }
 );
