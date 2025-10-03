@@ -1,22 +1,69 @@
-import { pool } from "../db.js";
+// models/Request.js
+import { DataTypes } from "sequelize";
+import sequelize from "../db.js";
+import User from "./User.js";
+import Service from "./Service.js";
 
-export const createRequest = async ({ user_id, service_id }) => {
-  const result = await pool.query(
-    `INSERT INTO requests (user_id, service_id) VALUES ($1, $2) RETURNING *`,
-    [user_id, service_id]
-  );
-  return result.rows[0];
-};
+const Request = sequelize.define(
+  "Request",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    applicant_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+    },
+    service_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Services",
+        key: "id",
+      },
+    },
+    status: {
+      type: DataTypes.ENUM("pending", "reviewed", "approved", "rejected"),
+      defaultValue: "pending",
+    },
+    officer_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+    },
+    dhead_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "Users",
+        key: "id",
+      },
+    },
+    created_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+  },
+  {
+    tableName: "Requests",
+    timestamps: false,
+  }
+);
 
-export const getRequests = async () => {
-  const result = await pool.query(`SELECT * FROM requests`);
-  return result.rows;
-};
+// Relations
+User.hasMany(Request, { foreignKey: "applicant_id", as: "myRequests" });
+Request.belongsTo(User, { foreignKey: "applicant_id", as: "applicant" });
 
-export const updateRequestStatus = async (id, status) => {
-  const result = await pool.query(
-    `UPDATE requests SET status=$1 WHERE id=$2 RETURNING *`,
-    [status, id]
-  );
-  return result.rows[0];
-};
+Service.hasMany(Request, { foreignKey: "service_id" });
+Request.belongsTo(Service, { foreignKey: "service_id" });
+
+export default Request;

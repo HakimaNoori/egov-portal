@@ -1,23 +1,30 @@
+// routes/requests.js
 import express from "express";
-import {
-  createRequestController,
-  listRequestsController,
-  approveRequestController,
-  rejectRequestController,
-} from "../controllers/requestController.js";
+import { authenticate, authorize } from "../middlewares/auth.js";
+import * as requestsController from "../controllers/requestsController.js";
+import upload from "../middlewares/upload.js";
 
 const router = express.Router();
 
-// ایجاد درخواست جدید
-router.post("/", createRequestController);
+// Apply for a service
+router.post("/", authenticate, requestsController.createRequest);
 
-// لیست همه درخواست‌ها
-router.get("/", listRequestsController);
+// View own requests
+router.get("/my", authenticate, requestsController.myRequests);
 
-// تایید درخواست
-router.put("/approve/:id", approveRequestController);
+// Officer/Dhead/Admin: list requests
+router.get("/", authenticate, authorize("officer"), requestsController.listRequests);
 
-// رد درخواست
-router.put("/reject/:id", rejectRequestController);
+// Officer/Dhead/Admin: update request status
+router.put("/:id", authenticate, authorize("officer"), requestsController.updateRequest);
+
+// Upload new documents
+router.post("/:id/documents", authenticate, upload.array("documents", 5), requestsController.uploadDocuments);
+
+// View documents
+router.get("/:id/documents", authenticate, requestsController.getDocuments);
+
+// Update a document (replace file)
+router.put("/:id/documents/:docId", authenticate, upload.single("document"), requestsController.updateDocument);
 
 export default router;
