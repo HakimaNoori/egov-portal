@@ -1,18 +1,26 @@
-import { pool } from "../db.js";
+// models/Document.js
+import { DataTypes } from "sequelize";
+import sequelize from "../db.js";
+import Request from "./Request.js";
 
-export const uploadDocument = async ({ request_id, file_path }) => {
-  const result = await pool.query(
-    `INSERT INTO documents (request_id, file_path) 
-     VALUES ($1, $2) RETURNING *`,
-    [request_id, file_path]
-  );
-  return result.rows[0];
-};
+const Document = sequelize.define(
+  "Document",
+  {
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
+    request_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: { model: "Requests", key: "id" },
+    },
+    file_path: { type: DataTypes.STRING, allowNull: false },
+    file_type: { type: DataTypes.STRING, allowNull: true },
+    uploaded_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
+  },
+  { tableName: "Documents", timestamps: false }
+);
 
-export const getDocumentsByRequest = async (request_id) => {
-  const result = await pool.query(
-    `SELECT * FROM documents WHERE request_id = $1`,
-    [request_id]
-  );
-  return result.rows;
-};
+// Relations
+Request.hasMany(Document, { foreignKey: "request_id", as: "documents" });
+Document.belongsTo(Request, { foreignKey: "request_id" });
+
+export default Document;
