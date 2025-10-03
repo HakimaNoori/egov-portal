@@ -1,14 +1,49 @@
-import { pool } from "../db.js";
+// models/Service.js
+import { DataTypes } from "sequelize";
+import sequelize from "../db.js";
+import Department from "./Department.js";
 
-export const createService = async ({ name, department_id, fee }) => {
-  const result = await pool.query(
-    `INSERT INTO services (name, department_id, fee) VALUES ($1, $2, $3) RETURNING *`,
-    [name, department_id, fee]
-  );
-  return result.rows[0];
-};
+const Service = sequelize.define(
+  "Service",
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    department_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: "Departments",
+        key: "id",
+      },
+    },
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    fee: {
+      type: DataTypes.DECIMAL(10, 2),
+      defaultValue: 0.0,
+    },
+    created_at: {
+      type: DataTypes.DATE,
+      defaultValue: DataTypes.NOW,
+    },
+  },
+  {
+    tableName: "Services",
+    timestamps: false,
+  }
+);
 
-export const getServices = async () => {
-  const result = await pool.query(`SELECT * FROM services`);
-  return result.rows;
-};
+// Relations
+Department.hasMany(Service, { foreignKey: "department_id" });
+Service.belongsTo(Department, { foreignKey: "department_id" });
+
+export default Service;
