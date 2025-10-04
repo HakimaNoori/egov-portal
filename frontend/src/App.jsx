@@ -16,7 +16,7 @@ import ManageDepartments from "./pages/admin/ManageDepartments";
 import ManageServices from "./pages/admin/ManageServices";
 import ManageUsers from "./pages/admin/ManageUsers";
 import Reports from "./pages/admin/Reports";
-import Register from "./pages/citizen/register";
+import Register from "./pages/citizen/Register";
 import { ToastContainer } from "react-toastify";
 
 function App() {
