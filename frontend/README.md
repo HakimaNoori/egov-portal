@@ -11,124 +11,117 @@ frontend/
 │   │
 │   ├── components/                 # Reusable UI components
 │   │   ├── layout/                 # Layouts (role-based dashboards)
-│   │   │   ├── AdminLayout.tsx
-│   │   │   ├── CitizenLayout.tsx
-│   │   │   ├── OfficerLayout.tsx
-│   │   │   ├── DheadLayout.tsx
-│   │   │   └── PublicLayout.tsx
+│   │   │   ├── AdminLayout.jsx
+│   │   │   ├── CitizenLayout.jsx
+│   │   │   ├── OfficerLayout.jsx
+│   │   │   ├── DheadLayout.jsx
+│   │   │   └── PublicLayout.jsx
 │   │   │
 │   │   ├── ui/                     # Common UI (buttons, modals, inputs, tables)
-│   │   │   ├── Button.tsx
-│   │   │   ├── Input.tsx
-│   │   │   ├── Modal.tsx
-│   │   │   ├── Table.tsx
-│   │   │   └── NotificationBell.tsx
+│   │   │   ├── Button.jsx
+│   │   │   ├── Input.jsx
+│   │   │   ├── Modal.jsx
+│   │   │   ├── Table.jsx
+│   │   │   └── NotificationBell.jsx
 │   │   │
 │   │   └── charts/                 # Reusable charts for analytics
-│   │       ├── RequestsChart.tsx
-│   │       └── PaymentsChart.tsx
+│   │       ├── RequestsChart.jsx
+│   │       └── PaymentsChart.jsx
 │   │
 │   ├── hooks/                      # Custom hooks
-│   │   ├── useAuth.ts
-│   │   ├── useNotifications.ts
-│   │   └── useRoleGuard.ts
+│   │   ├── useAuth.js
+│   │   ├── useNotifications.js
+│   │   └── useRoleGuard.js
 │   │
 │   ├── layouts/                    # Higher-level layouts
-│   │   ├── DashboardLayout.tsx     # Common dashboard wrapper
-│   │   └── AuthLayout.tsx
+│   │   ├── DashboardLayout.jsx     # Common dashboard wrapper
+│   │   └── AuthLayout.jsx
 │   │
 │   ├── pages/                      # Role-based pages
 │   │   ├── public/                 # Public pages
-│   │   │   ├── LandingPage.tsx
-│   │   │   ├── LoginPage.tsx
-│   │   │   ├── RegisterPage.tsx
-│   │   │   ├── AboutPage.tsx
-│   │   │   └── ContactPage.tsx
+│   │   │   ├── LandingPage.jsx
+│   │   │   ├── LoginPage.jsx
+│   │   │   ├── RegisterPage.jsx
+│   │   │   ├── AboutPage.jsx
+│   │   │   └── ContactPage.jsx
 │   │   │
 │   │   ├── citizen/                # Citizen pages
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── ServicesList.tsx
-│   │   │   ├── ServiceDetails.tsx
-│   │   │   ├── MyRequests.tsx
-│   │   │   ├── RequestDetails.tsx
-│   │   │   ├── MyPayments.tsx
-│   │   │   ├── PaymentDetails.tsx
-│   │   │   ├── Notifications.tsx
-│   │   │   └── Profile.tsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── ServicesList.jsx
+│   │   │   ├── ServiceDetails.jsx
+│   │   │   ├── MyRequests.jsx
+│   │   │   ├── RequestDetails.jsx
+│   │   │   ├── MyPayments.jsx
+│   │   │   ├── PaymentDetails.jsx
+│   │   │   ├── Notifications.jsx
+│   │   │   └── Profile.jsx
 │   │   │
 │   │   ├── officer/                # Officer pages
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── RequestsList.tsx
-│   │   │   ├── RequestDetails.tsx
-│   │   │   ├── Notifications.tsx
-│   │   │   └── Profile.tsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── RequestsList.jsx
+│   │   │   ├── RequestDetails.jsx
+│   │   │   ├── Notifications.jsx
+│   │   │   └── Profile.jsx
 │   │   │
 │   │   ├── dhead/                  # Department Head pages
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── RequestsList.tsx
-│   │   │   ├── RequestDetails.tsx
-│   │   │   ├── PaymentsList.tsx
-│   │   │   ├── ServicesList.tsx
-│   │   │   ├── Notifications.tsx
-│   │   │   └── Profile.tsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── RequestsList.jsx
+│   │   │   ├── RequestDetails.jsx
+│   │   │   ├── PaymentsList.jsx
+│   │   │   ├── ServicesList.jsx
+│   │   │   ├── Notifications.jsx
+│   │   │   └── Profile.jsx
 │   │   │
 │   │   ├── admin/                  # Admin pages
-│   │   │   ├── Dashboard.tsx
-│   │   │   ├── UsersList.tsx
-│   │   │   ├── DepartmentsList.tsx
-│   │   │   ├── ServicesList.tsx
-│   │   │   ├── RequestsList.tsx
-│   │   │   ├── PaymentsList.tsx
-│   │   │   ├── Notifications.tsx
-│   │   │   ├── Profile.tsx
-│   │   │   └── Settings.tsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   ├── UsersList.jsx
+│   │   │   ├── DepartmentsList.jsx
+│   │   │   ├── ServicesList.jsx
+│   │   │   ├── RequestsList.jsx
+│   │   │   ├── PaymentsList.jsx
+│   │   │   ├── Notifications.jsx
+│   │   │   ├── Profile.jsx
+│   │   │   └── Settings.jsx
 │   │   │
 │   │   ├── error/                  # Error pages
-│   │   │   ├── NotFound.tsx
-│   │   │   ├── Unauthorized.tsx
-│   │   │   └── ServerError.tsx
+│   │   │   ├── NotFound.jsx
+│   │   │   ├── Unauthorized.jsx
+│   │   │   └── ServerError.jsx
 │   │
 │   ├── routes/                     # Route definitions
-│   │   ├── index.tsx               # React Router setup
-│   │   ├── ProtectedRoute.tsx
-│   │   └── RoleBasedRoute.tsx
+│   │   ├── index.jsx               # React Router setup
+│   │   ├── ProtectedRoute.jsx
+│   │   └── RoleBasedRoute.jsx
 │   │
 │   ├── services/                   # API calls (RTK Query or Axios)
-│   │   ├── api.ts                  # axios instance
-│   │   ├── authService.ts
-│   │   ├── userService.ts
-│   │   ├── requestService.ts
-│   │   ├── paymentService.ts
-│   │   ├── serviceService.ts
-│   │   └── notificationService.ts
+│   │   ├── api.js                  # axios instance
+│   │   ├── authService.js
+│   │   ├── userService.js
+│   │   ├── requestService.js
+│   │   ├── paymentService.js
+│   │   ├── serviceService.js
+│   │   └── notificationService.js
 │   │
 │   ├── store/                      # State management (Redux Toolkit)
-│   │   ├── index.ts
-│   │   ├── authSlice.ts
-│   │   ├── userSlice.ts
-│   │   ├── requestSlice.ts
-│   │   ├── paymentSlice.ts
-│   │   ├── serviceSlice.ts
-│   │   └── notificationSlice.ts
-│   │
-│   ├── types/                      # TypeScript types & interfaces
-│   │   ├── auth.d.ts
-│   │   ├── user.d.ts
-│   │   ├── request.d.ts
-│   │   ├── payment.d.ts
-│   │   ├── service.d.ts
-│   │   └── notification.d.ts
+│   │   ├── index.js
+│   │   ├── authSlice.js
+│   │   ├── userSlice.js
+│   │   ├── requestSlice.js
+│   │   ├── paymentSlice.js
+│   │   ├── serviceSlice.js
+│   │   └── notificationSlice.js
 │   │
 │   ├── utils/                      # Utility functions
-│   │   ├── formatDate.ts
-│   │   ├── formatCurrency.ts
-│   │   └── roleUtils.ts
+│   │   ├── formatDate.js
+│   │   ├── formatCurrency.js
+│   │   └── roleUtils.js
 │   │
-│   ├── App.tsx                     # Main app component
-│   ├── main.tsx                    # Entry point
+│   ├── App.jsx                     # Main app component
+│   ├── main.jsx                    # Entry point
 │   ├── index.css                   # Global styles
 │   └── tailwind.config.js          # Tailwind config
 │
 ├── package.json
-└── tsconfig.json
+└── jsconfig.json                   # Instead of tsconfig.json
+
 ```
