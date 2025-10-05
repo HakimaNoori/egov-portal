@@ -123,5 +123,4 @@ frontend/
 │
 ├── package.json
 └── jsconfig.json                   # Instead of tsconfig.json
-
 ```
