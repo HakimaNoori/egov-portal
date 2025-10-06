@@ -21,10 +21,47 @@ import NotFound from "../pages/error/NotFound";
 import Unauthorized from "../pages/error/Unauthorized";
 
 // Role-Based Pages
-import CitizenDashboard from "../pages/citizen/Dashboard";
-import OfficerDashboard from "../pages/officer/Dashboard";
-import DheadDashboard from "../pages/dhead/Dashboard";
-import AdminDashboard from "../pages/admin/Dashboard";
+import {
+  CitizenDashboard,
+  CitizenServicesList,
+  CitizenServiceDetails,
+  CitizenRequests,
+  CitizenRequestDetails,
+  CitizenPayments,
+  CitizenPaymentDetails,
+  CitizenNotifications,
+  CitizenProfile,
+} from "../pages/citizen";
+
+import {
+  OfficerDashboard,
+  OfficerRequestsList,
+  OfficerRequestDetails,
+  OfficerNotifications,
+  OfficerProfile,
+} from "../pages/officer";
+
+import {
+  DheadDashboard,
+  DheadRequestsList,
+  DheadRequestDetails,
+  DheadPaymentsList,
+  DheadServicesList,
+  DheadNotifications,
+  DheadProfile,
+} from "../pages/dhead";
+
+import {
+  AdminDashboard,
+  AdminUsersList,
+  AdminDepartmentsList,
+  AdminServicesList,
+  AdminRequestsList,
+  AdminPaymentsList,
+  AdminNotifications,
+  AdminProfile,
+  AdminSettings
+} from "../pages/admin";
 
 const AppRoutes = () => {
   return (
@@ -51,6 +88,14 @@ const AppRoutes = () => {
           }
         >
           <Route path="/citizen/dashboard" element={<CitizenDashboard />} />
+          <Route path="/citizen/services" element={<CitizenServicesList />} />
+          <Route path="/citizen/services/:id" element={<CitizenServiceDetails />} />
+          <Route path="/citizen/requests" element={<CitizenRequests />} />
+          <Route path="/citizen/requests/:id" element={<CitizenRequestDetails />} />
+          <Route path="/citizen/payments" element={<CitizenPayments />} />
+          <Route path="/citizen/payments/:id" element={<CitizenPaymentDetails />} />
+          <Route path="/citizen/notifications" element={<CitizenNotifications />} />
+          <Route path="/citizen/profile" element={<CitizenProfile />} />
         </Route>
 
         {/* Protected Officer Routes */}
@@ -64,6 +109,10 @@ const AppRoutes = () => {
           }
         >
           <Route path="/officer/dashboard" element={<OfficerDashboard />} />
+          <Route path="/officer/requests" element={<OfficerRequestsList />} />
+          <Route path="/officer/requests/:id" element={<OfficerRequestDetails />} />
+          <Route path="/officer/notifications" element={<OfficerNotifications />} />
+          <Route path="/officer/profile" element={<OfficerProfile />} />
         </Route>
 
         {/* Protected Department Head Routes */}
@@ -77,6 +126,12 @@ const AppRoutes = () => {
           }
         >
           <Route path="/dhead/dashboard" element={<DheadDashboard />} />
+          <Route path="/dhead/requests" element={<DheadRequestsList />} />
+          <Route path="/dhead/requests/:id" element={<DheadRequestDetails />} />
+          <Route path="/dhead/payments" element={<DheadPaymentsList />} />
+          <Route path="/dhead/services" element={<DheadServicesList />} />
+          <Route path="/dhead/notifications" element={<DheadNotifications />} />
+          <Route path="/dhead/profile" element={<DheadProfile />} />
         </Route>
 
         {/* Protected Admin Routes */}
@@ -90,6 +145,14 @@ const AppRoutes = () => {
           }
         >
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/users" element={<AdminUsersList />} />
+          <Route path="/admin/departments" element={<AdminDepartmentsList />} />
+          <Route path="/admin/services" element={<AdminServicesList />} />
+          <Route path="/admin/requests" element={<AdminRequestsList />} />
+          <Route path="/admin/payments" element={<AdminPaymentsList />} />
+          <Route path="/admin/notifications" element={<AdminNotifications />} />
+          <Route path="/admin/profile" element={<AdminProfile />} />
+          <Route path="/admin/settings" element={<AdminSettings />} />
         </Route>
 
         {/* Error Routes */}
