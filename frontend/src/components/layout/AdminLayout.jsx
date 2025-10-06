@@ -7,9 +7,9 @@ const AdminLayout = () => {
     <div className="flex min-h-screen bg-gray-100">
       {/* Sidebar */}
       <aside className="w-64 bg-white shadow-md flex flex-col">
-        <div className="p-4 border-b font-bold text-red-600 text-xl">
-          Admin Panel
-        </div>
+        <Link to="/" className="text-xl p-4 border-b font-bold text-blue-600">
+          E-Gov Portal
+        </Link>
         <nav className="flex-1 p-4 space-y-2">
           <Link to="/admin/dashboard" className="block hover:text-red-600">Dashboard</Link>
           <Link to="/admin/users" className="block hover:text-red-600">Users</Link>
