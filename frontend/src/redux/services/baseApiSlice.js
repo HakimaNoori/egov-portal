@@ -1,5 +1,16 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+export const tagTypes = {
+  user: "User",
+  users: "Users",
+  department: "Department",
+  departments: "Departments",
+  request: "Request",
+  requests: "Requests",
+  document: "Document",
+  documents: "Documents",
+}
+
 export const baseApiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
@@ -10,6 +21,6 @@ export const baseApiSlice = createApi({
       return headers;
     },
   }),
-  tagTypes: ["User", "Users"],
+  tagTypes: Object.values(tagTypes),
   endpoints: () => ({}),
 });

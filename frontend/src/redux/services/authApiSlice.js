@@ -1,4 +1,4 @@
-import { baseApiSlice } from "./baseApiSlice";
+import { baseApiSlice, tagTypes } from "./baseApiSlice";
 
 // Inject authentication and user-related endpoints into the base API slice
 export const authApiSlice = baseApiSlice.injectEndpoints({
@@ -10,7 +10,7 @@ export const authApiSlice = baseApiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: [tagTypes.user],
     }),
     // Login an existing user
     login: builder.mutation({
@@ -19,7 +19,7 @@ export const authApiSlice = baseApiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["User"],
+      invalidatesTags: [tagTypes.user],
     }),
     // Get the profile of the currently authenticated user
     getProfile: builder.query({
@@ -27,7 +27,7 @@ export const authApiSlice = baseApiSlice.injectEndpoints({
         url: "/users/me",
         method: "GET",
       }),
-      providesTags: ["User"],
+      providesTags: [tagTypes.user],
     }),
     // Create a new user (admin functionality)
     createUser: builder.mutation({
@@ -36,7 +36,7 @@ export const authApiSlice = baseApiSlice.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: [tagTypes.users],
     }),
     // Update an existing user's information
     updateUser: builder.mutation({
@@ -45,7 +45,7 @@ export const authApiSlice = baseApiSlice.injectEndpoints({
         method: "PUT",
         body: data,
       }),
-      invalidatesTags: ["Users", "User"],
+      invalidatesTags: [tagTypes.users, tagTypes.user],
     }),
     // Delete a user by ID
     deleteUser: builder.mutation({
@@ -53,7 +53,7 @@ export const authApiSlice = baseApiSlice.injectEndpoints({
         url: `/users/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: [tagTypes.users],
     }),
     // List all users (admin functionality)
     listUsers: builder.query({
@@ -61,7 +61,7 @@ export const authApiSlice = baseApiSlice.injectEndpoints({
         url: "/users/",
         method: "GET",
       }),
-      providesTags: ["Users"],
+      providesTags: [tagTypes.users],
     }),
   }),
 });
