@@ -23,7 +23,7 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       const response = await login(formData).unwrap();
-      dispatch(setCredentials({ user: response.user, token: response.accessToken }));
+      dispatch(setCredentials({ user: response.user, token: response.token }));
 
       toast.success(`Welcome back, ${response.user.name}!`);
 

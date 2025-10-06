@@ -1,5 +1,6 @@
 import { Link, Outlet } from "react-router-dom";
 import NotificationBell from "../ui/NotificationBell";
+import LogoutButton from "../ui/LogoutButton";
 
 const CitizenLayout = () => {
   return (
@@ -17,6 +18,11 @@ const CitizenLayout = () => {
           <Link to="/citizen/notifications" className="block hover:text-blue-600">Notifications</Link>
           <Link to="/citizen/profile" className="block hover:text-blue-600">Profile</Link>
         </nav>
+
+        {/* Logout at bottom */}
+        <div className="p-4 border-t">
+          <LogoutButton />
+        </div>
       </aside>
 
       {/* Main Content */}
