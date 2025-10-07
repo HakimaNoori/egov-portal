@@ -12,7 +12,7 @@ const AdminLayout = () => {
         </Link>
         <nav className="flex-1 p-4 space-y-2">
           <Link to="/admin/dashboard" className="block hover:text-red-600">Dashboard</Link>
-          <Link to="/admin/users" className="block hover:text-red-600">Users</Link>
+          <Link to="/admin/users" className="block hover:text-red-600">User Management</Link>
           <Link to="/admin/departments" className="block hover:text-red-600">Departments</Link>
           <Link to="/admin/services" className="block hover:text-red-600">Services</Link>
           <Link to="/admin/requests" className="block hover:text-red-600">Requests</Link>

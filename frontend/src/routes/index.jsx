@@ -48,6 +48,7 @@ import {
   DheadPaymentsList,
   DheadServicesList,
   DheadNotifications,
+  DheadUserManagement,
   DheadProfile,
 } from "../pages/dhead";
 
@@ -126,6 +127,7 @@ const AppRoutes = () => {
           }
         >
           <Route path="/dhead/dashboard" element={<DheadDashboard />} />
+          <Route path="/dhead/users" element={<DheadUserManagement />} />
           <Route path="/dhead/requests" element={<DheadRequestsList />} />
           <Route path="/dhead/requests/:id" element={<DheadRequestDetails />} />
           <Route path="/dhead/payments" element={<DheadPaymentsList />} />

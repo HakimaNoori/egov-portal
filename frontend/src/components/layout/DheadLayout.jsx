@@ -12,6 +12,7 @@ const DheadLayout = () => {
         </Link>
         <nav className="flex-1 p-4 space-y-2">
           <Link to="/dhead/dashboard" className="block hover:text-purple-600">Dashboard</Link>
+          <Link to="/dhead/users" className="block hover:text-purple-600">User Management</Link>
           <Link to="/dhead/requests" className="block hover:text-purple-600">Requests</Link>
           <Link to="/dhead/payments" className="block hover:text-purple-600">Payments</Link>
           <Link to="/dhead/services" className="block hover:text-purple-600">Services</Link>
