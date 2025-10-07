@@ -16,6 +16,9 @@ import requestRoutes from "./src/routes/requests.js";
 import paymentRoutes from "./src/routes/payments.js";
 import notificationRoutes from "./src/routes/notifications.js";
 
+// Import seed function
+import seedAdmin from "./seedAdmin.js";
+
 dotenv.config();
 
 const app = express();
@@ -45,6 +48,15 @@ app.get("/", (req, res) => {
   res.send("E-Government Portal Backend is running!");
 });
 
+// Health check route with seed status
+app.get("/health", (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    message: 'E-Government Portal Backend is running!',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Start server + DB connection
 async function startServer() {
   try {
@@ -55,8 +67,13 @@ async function startServer() {
     await sequelize.sync({ alter: true }); 
     console.log("✅ All models synchronized");
 
+    // Seed admin user after successful database sync
+    console.log("🌱 Checking admin user...");
+    await seedAdmin();
+
     app.listen(PORT, () => {
       console.log(`🚀 Server running on port ${PORT}`);
+      console.log(`📍 Health check: http://localhost:${PORT}/health`);
     });
   } catch (err) {
     console.error("❌ Failed to start server:", err);
