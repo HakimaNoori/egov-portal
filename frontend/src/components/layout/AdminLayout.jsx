@@ -13,10 +13,10 @@ const AdminLayout = () => {
         <nav className="flex-1 p-4 space-y-2">
           <Link to="/admin/dashboard" className="block hover:text-red-600">Dashboard</Link>
           <Link to="/admin/users" className="block hover:text-red-600">User Management</Link>
-          <Link to="/admin/departments" className="block hover:text-red-600">Departments</Link>
-          <Link to="/admin/services" className="block hover:text-red-600">Services</Link>
-          <Link to="/admin/requests" className="block hover:text-red-600">Requests</Link>
-          <Link to="/admin/payments" className="block hover:text-red-600">Payments</Link>
+          <Link to="/admin/departments" className="block hover:text-red-600">Dep Management</Link>
+          <Link to="/admin/services" className="block hover:text-red-600">Service Management</Link>
+          <Link to="/admin/requests" className="block hover:text-red-600">Request Management</Link>
+          <Link to="/admin/payments" className="block hover:text-red-600">Payment Management</Link>
           <Link to="/admin/notifications" className="block hover:text-red-600">Notifications</Link>
           <Link to="/admin/profile" className="block hover:text-red-600">Profile</Link>
         </nav>
