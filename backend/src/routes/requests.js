@@ -1,4 +1,3 @@
-// routes/requests.js
 import express from "express";
 import { authenticate, authorize } from "../middlewares/auth.js";
 import * as requestsController from "../controllers/requestsController.js";

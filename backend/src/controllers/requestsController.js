@@ -1,9 +1,12 @@
-// controllers/requestsController.js
 import Request from "../models/Request.js";
 import Service from "../models/Service.js";
 import User from "../models/User.js";
 import Document from "../models/Document.js";
-import Notification from "../models/Notification.js"; // ✅ added
+import Notification from "../models/Notification.js";
+import path from "path";
+
+const BASE_URL = process.env.BASE_URL || "http://localhost:5000";
+const UPLOADS_PATH = "/uploads";
 
 // ✅ Any user: apply for a service
 export async function createRequest(req, res) {
@@ -127,7 +130,7 @@ export async function uploadDocuments(req, res) {
       req.files.map((file) =>
         Document.create({
           request_id: request.id,
-          file_path: file.path,
+          file_path: `${BASE_URL}${UPLOADS_PATH}/${file.filename}`,
           file_type: file.mimetype,
         })
       )
@@ -173,7 +176,7 @@ export async function updateDocument(req, res) {
 
     if (!req.file) return res.status(400).json({ message: "No new file uploaded" });
 
-    doc.file_path = req.file.path;
+    doc.file_path = `${BASE_URL}${UPLOADS_PATH}/${req.file.filename}`;
     doc.file_type = req.file.mimetype;
     await doc.save();
 

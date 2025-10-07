@@ -42,7 +42,7 @@ router.delete(
 router.get(
   "/",
   authenticate,
-  authorize("admin"),
+  authorize("dhead"),
   usersController.listUsers
 );
 
