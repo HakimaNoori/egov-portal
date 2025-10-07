@@ -5,13 +5,16 @@ export const serviceApiSlice = baseApiSlice.injectEndpoints({
     // List all services
     listServices: builder.query({
       query: () => '/services',
-      providesTags: [tagTypes.services],
+      providesTags: [{ type: tagTypes.services, id: 'LIST' }],
     }),
+
     // Get one service
     getService: builder.query({
       query: (id) => `/services/${id}`,
-      providesTags: (result, error, id) => [{ type: tagTypes.service, id }],
+      providesTags: (result, error, id) =>
+        result ? [{ type: tagTypes.service, id }] : [],
     }),
+
     // Create service
     createService: builder.mutation({
       query: (data) => ({
@@ -19,8 +22,9 @@ export const serviceApiSlice = baseApiSlice.injectEndpoints({
         method: 'POST',
         body: data,
       }),
-      invalidatesTags: [tagTypes.services],
+      invalidatesTags: [{ type: tagTypes.services, id: 'LIST' }],
     }),
+
     // Update service
     updateService: builder.mutation({
       query: ({ id, ...data }) => ({
@@ -29,10 +33,11 @@ export const serviceApiSlice = baseApiSlice.injectEndpoints({
         body: data,
       }),
       invalidatesTags: (result, error, { id }) => [
-        tagTypes.services,
+        { type: tagTypes.services, id: 'LIST' },
         { type: tagTypes.service, id },
       ],
     }),
+
     // Delete service
     deleteService: builder.mutation({
       query: (id) => ({
@@ -40,7 +45,7 @@ export const serviceApiSlice = baseApiSlice.injectEndpoints({
         method: 'DELETE',
       }),
       invalidatesTags: (result, error, id) => [
-        tagTypes.services,
+        { type: tagTypes.services, id: 'LIST' },
         { type: tagTypes.service, id },
       ],
     }),
