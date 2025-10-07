@@ -58,6 +58,7 @@ import {
   AdminDepartmentsList,
   AdminServicesList,
   AdminRequestsList,
+  AdminRequestDetails,
   AdminPaymentsList,
   AdminNotifications,
   AdminProfile,
@@ -151,6 +152,7 @@ const AppRoutes = () => {
           <Route path="/admin/departments" element={<AdminDepartmentsList />} />
           <Route path="/admin/services" element={<AdminServicesList />} />
           <Route path="/admin/requests" element={<AdminRequestsList />} />
+          <Route path="/admin/requests/:id" element={<AdminRequestDetails />} />
           <Route path="/admin/payments" element={<AdminPaymentsList />} />
           <Route path="/admin/notifications" element={<AdminNotifications />} />
           <Route path="/admin/profile" element={<AdminProfile />} />

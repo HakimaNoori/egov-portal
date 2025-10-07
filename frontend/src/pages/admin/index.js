@@ -3,6 +3,7 @@ export { default as AdminUsersList } from "./AdminUsersList";
 export { default as AdminDepartmentsList } from "./AdminDepartmentsList";
 export { default as AdminServicesList } from "./AdminServicesList";
 export { default as AdminRequestsList } from "./AdminRequestsList";
+export { default as AdminRequestDetails } from "./AdminRequestDetails";
 export { default as AdminPaymentsList } from "./AdminPaymentsList";
 export { default as AdminNotifications } from "./AdminNotifications";
 export { default as AdminProfile } from "./AdminProfile";
