@@ -14,10 +14,10 @@ export const tagTypes = {
 export const baseApiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/api",
+    baseUrl: "https://egov-portal.onrender.com/api",
     prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.token
-      if (token) headers.set('authorization', `Bearer ${token}`)
+      const token = getState().auth.token;
+      if (token) headers.set("authorization", `Bearer ${token}`);
       return headers;
     },
   }),
