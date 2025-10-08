@@ -1,5 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const tagTypes = {
   user: "User",
   users: "Users",
@@ -14,7 +16,7 @@ export const tagTypes = {
 export const baseApiSlice = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://egov-portal.onrender.com/api",
+    baseUrl: API_URL,
     prepareHeaders: (headers, { getState }) => {
       const token = getState().auth.token;
       if (token) headers.set("authorization", `Bearer ${token}`);
