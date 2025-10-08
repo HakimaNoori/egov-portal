@@ -27,7 +27,7 @@ export default function RegisterPage() {
       const response = await register(formData).unwrap();
 
       dispatch(
-        setCredentials({ user: response.user, token: response.accessToken })
+        setCredentials({ user: response.user, token: response.token })
       );
       toast.success("Registration successful ✅");
 
