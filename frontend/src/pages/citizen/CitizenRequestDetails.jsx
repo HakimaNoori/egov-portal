@@ -9,7 +9,6 @@ export default function CitizenRequestDetails() {
   const { data: requests = [] } = useMyRequestsQuery();
   const request = requests.find((r) => String(r.id) === String(id));
   const { data: documents = [], isLoading: docsLoading } = useGetDocumentsQuery(Number(id));
-  console.log("Documents:", documents);
   const [uploadDocuments, { isLoading: uploading }] = useUploadDocumentsMutation();
   const [updateDocument] = useUpdateDocumentMutation();
   const [files, setFiles] = useState(null);
