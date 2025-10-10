@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { useRegisterMutation } from "../../redux/services/authApiSlice";
 import { setCredentials } from "../../redux/services/authSlice";
 import { toast } from "react-toastify";
 
 export default function RegisterPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [register, { isLoading }] = useRegisterMutation();
 
   const [formData, setFormData] = useState({
@@ -24,11 +26,14 @@ export default function RegisterPage() {
     try {
       const response = await register(formData).unwrap();
 
-      dispatch(setCredentials({ user: response.user, token: response.accessToken }));
+      dispatch(
+        setCredentials({ user: response.user, token: response.token })
+      );
       toast.success("Registration successful ✅");
 
       // reset form
       setFormData({ name: "", email: "", password: "", role: "citizen" });
+      navigate("/citizen/dashboard");
     } catch (err) {
       toast.error(err?.data?.message || "Registration failed ❌");
     }
@@ -45,7 +50,9 @@ export default function RegisterPage() {
         </h2>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Full Name</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Full Name
+          </label>
           <input
             type="text"
             name="name"
@@ -58,7 +65,9 @@ export default function RegisterPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
           <input
             type="email"
             name="email"
@@ -71,7 +80,9 @@ export default function RegisterPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Password</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Password
+          </label>
           <input
             type="password"
             name="password"
