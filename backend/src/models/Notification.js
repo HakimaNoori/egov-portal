@@ -1,4 +1,3 @@
-// models/Notification.js
 import { DataTypes } from "sequelize";
 import sequelize from "../db.js";
 import User from "./User.js";

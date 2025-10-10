@@ -29,10 +29,10 @@ export default function LoginPage() {
 
       // Redirect based on role
       const role = response.user.role;
-      if (role === "citizen") navigate("/citizen/dashboard");
-      else if (role === "officer") navigate("/officer/dashboard");
-      else if (role === "dhead") navigate("/dhead/dashboard");
-      else if (role === "admin") navigate("/admin/dashboard");
+      if (role === "citizen") navigate("/citizen/services");
+      else if (role === "officer") navigate("/officer/requests");
+      else if (role === "dhead") navigate("/dhead/requests");
+      else if (role === "admin") navigate("/admin/analytics");
       else navigate("/");
     } catch (err) {
       toast.error(err?.data?.message || "Login failed ❌");

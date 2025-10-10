@@ -1,5 +1,4 @@
-export { default as CitizenDashboard } from "./CitizenDashboard";
-export { default as CitizenServicesList } from "./CitizenServicesList";
+export { default as CitizenServices } from "./CitizenServices";
 export { default as CitizenServiceDetails } from "./CitizenServiceDetails";
 export { default as CitizenRequests } from "./CitizenRequests";
 export { default as CitizenRequestDetails } from "./CitizenRequestDetails";

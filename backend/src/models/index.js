@@ -1,4 +1,3 @@
-// src/models/index.js
 import sequelize from "../db.js";
 
 // Import models

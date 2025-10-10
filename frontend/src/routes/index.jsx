@@ -22,8 +22,7 @@ import Unauthorized from "../pages/error/Unauthorized";
 
 // Role-Based Pages
 import {
-  CitizenDashboard,
-  CitizenServicesList,
+  CitizenServices,
   CitizenServiceDetails,
   CitizenRequests,
   CitizenRequestDetails,
@@ -34,7 +33,7 @@ import {
 } from "../pages/citizen";
 
 import {
-  OfficerDashboard,
+  OfficerServicesPage,
   OfficerRequestsList,
   OfficerRequestDetails,
   OfficerNotifications,
@@ -42,10 +41,11 @@ import {
 } from "../pages/officer";
 
 import {
-  DheadDashboard,
+  DheadServicesPage,
   DheadRequestsList,
   DheadRequestDetails,
   DheadPaymentsList,
+  DheadPaymentDetails,
   DheadServicesList,
   DheadNotifications,
   DheadUserManagement,
@@ -53,23 +53,23 @@ import {
 } from "../pages/dhead";
 
 import {
-  AdminDashboard,
+  AdminAnalytics,
   AdminUsersList,
   AdminDepartmentsList,
   AdminServicesList,
   AdminRequestsList,
   AdminRequestDetails,
   AdminPaymentsList,
+  AdminPaymentDetails,
   AdminNotifications,
   AdminProfile,
-  AdminSettings
+  AdminSettings,
 } from "../pages/admin";
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
       <Routes>
-
         {/* Public Routes */}
         <Route element={<PublicLayout />}>
           <Route path="/" element={<LandingPage />} />
@@ -89,14 +89,25 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="/citizen/dashboard" element={<CitizenDashboard />} />
-          <Route path="/citizen/services" element={<CitizenServicesList />} />
-          <Route path="/citizen/services/:id" element={<CitizenServiceDetails />} />
+          <Route path="/citizen/services" element={<CitizenServices />} />
+          <Route
+            path="/citizen/services/:id"
+            element={<CitizenServiceDetails />}
+          />
           <Route path="/citizen/requests" element={<CitizenRequests />} />
-          <Route path="/citizen/requests/:id" element={<CitizenRequestDetails />} />
+          <Route
+            path="/citizen/requests/:id"
+            element={<CitizenRequestDetails />}
+          />
           <Route path="/citizen/payments" element={<CitizenPayments />} />
-          <Route path="/citizen/payments/:id" element={<CitizenPaymentDetails />} />
-          <Route path="/citizen/notifications" element={<CitizenNotifications />} />
+          <Route
+            path="/citizen/payments/:id"
+            element={<CitizenPaymentDetails />}
+          />
+          <Route
+            path="/citizen/notifications"
+            element={<CitizenNotifications />}
+          />
           <Route path="/citizen/profile" element={<CitizenProfile />} />
         </Route>
 
@@ -110,10 +121,16 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="/officer/dashboard" element={<OfficerDashboard />} />
+          <Route path="/officer/services" element={<OfficerServicesPage />} />
           <Route path="/officer/requests" element={<OfficerRequestsList />} />
-          <Route path="/officer/requests/:id" element={<OfficerRequestDetails />} />
-          <Route path="/officer/notifications" element={<OfficerNotifications />} />
+          <Route
+            path="/officer/requests/:id"
+            element={<OfficerRequestDetails />}
+          />
+          <Route
+            path="/officer/notifications"
+            element={<OfficerNotifications />}
+          />
           <Route path="/officer/profile" element={<OfficerProfile />} />
         </Route>
 
@@ -127,11 +144,12 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="/dhead/dashboard" element={<DheadDashboard />} />
+          <Route path="/dhead/services" element={<DheadServicesPage />} />
           <Route path="/dhead/users" element={<DheadUserManagement />} />
           <Route path="/dhead/requests" element={<DheadRequestsList />} />
           <Route path="/dhead/requests/:id" element={<DheadRequestDetails />} />
           <Route path="/dhead/payments" element={<DheadPaymentsList />} />
+          <Route path="/dhead/payments/:id" element={<DheadPaymentDetails />} />
           <Route path="/dhead/services" element={<DheadServicesList />} />
           <Route path="/dhead/notifications" element={<DheadNotifications />} />
           <Route path="/dhead/profile" element={<DheadProfile />} />
@@ -147,13 +165,14 @@ const AppRoutes = () => {
             </ProtectedRoute>
           }
         >
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/analytics" element={<AdminAnalytics />} />
           <Route path="/admin/users" element={<AdminUsersList />} />
           <Route path="/admin/departments" element={<AdminDepartmentsList />} />
           <Route path="/admin/services" element={<AdminServicesList />} />
           <Route path="/admin/requests" element={<AdminRequestsList />} />
           <Route path="/admin/requests/:id" element={<AdminRequestDetails />} />
           <Route path="/admin/payments" element={<AdminPaymentsList />} />
+          <Route path="/admin/payments/:id" element={<AdminPaymentDetails />} />
           <Route path="/admin/notifications" element={<AdminNotifications />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
           <Route path="/admin/settings" element={<AdminSettings />} />

@@ -1,86 +1,91 @@
+// src/components/ui/NotificationBell.jsx
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useGetMyNotificationsQuery } from '../../redux/services/notificationApiSlice';
+import NotificationBadge from '../notifications/NotificationBadge';
 
-const NotificationBell = ({ notifications = [] }) => {
-  const [open, setOpen] = useState(false);
+export default function NotificationBell() {
+  const { data: notifications = [] } = useGetMyNotificationsQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadNotifications = notifications.filter(notif => !notif.read_status);
+
+  // Sort all notifications by newest first
+  const sortedNotifications = [...notifications].sort(
+    (a, b) => new Date(b.created_at) - new Date(a.created_at)
+  );
 
   return (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
+    <div className="relative">
       <button
-        onClick={() => setOpen(!open)}
-        style={{
-          background: 'none',
-          border: 'none',
-          cursor: 'pointer',
-          position: 'relative',
-          padding: 0,
-        }}
-        aria-label="Notifications"
+        onClick={() => setShowDropdown(!showDropdown)}
+        className="relative p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
       >
-        <svg
-          width="24"
-          height="24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          viewBox="0 0 24 24"
-        >
-          <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" />
-          <path d="M13.73 21a2 2 0 01-3.46 0" />
+        {/* Bell icon */}
+        <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 24c1.104 0 2-.895 2-2h-4c0 1.105.896 2 2 2zm6.364-6V11c0-3.07-1.64-5.64-4.364-6.32V4a2 2 0 10-4 0v.68C7.276 5.36 5.636 7.93 5.636 11v7l-1.636 1.636V20h16v-0.364L18.364 18zM17 18H7v-7c0-2.48 1.516-4.5 4-4.5s4 2.02 4 4.5v7z" />
         </svg>
-        {unreadCount > 0 && (
-          <span
-            style={{
-              position: 'absolute',
-              top: 0,
-              right: 0,
-              background: 'red',
-              color: 'white',
-              borderRadius: '50%',
-              padding: '2px 6px',
-              fontSize: '12px',
-            }}
-          >
-            {unreadCount}
-          </span>
-        )}
+        <NotificationBadge count={unreadNotifications.length} />
       </button>
-      {open && (
-        <div
-          style={{
-            position: 'absolute',
-            right: 0,
-            marginTop: '8px',
-            background: 'white',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
-            borderRadius: '4px',
-            minWidth: '220px',
-            zIndex: 100,
-          }}
-        >
-          <ul style={{ listStyle: 'none', margin: 0, padding: '8px 0' }}>
-            {notifications.length === 0 ? (
-              <li style={{ padding: '8px 16px', color: '#888' }}>No notifications</li>
+
+      {showDropdown && (
+        <div className="absolute right-0 mt-2 w-80 bg-white rounded-2xl shadow-lg border border-gray-200 z-50">
+          <div className="p-4 border-b border-gray-200 flex justify-between items-center">
+            <h3 className="font-semibold text-gray-800">Notifications</h3>
+            <span className="text-sm text-gray-500">
+              {unreadNotifications.length} unread
+            </span>
+          </div>
+
+          <div className="max-h-96 overflow-y-auto">
+            {sortedNotifications.length === 0 ? (
+              <div className="p-4 text-center text-gray-500">
+                <p>No notifications</p>
+              </div>
             ) : (
-              notifications.map((n, idx) => (
-                <li
-                  key={idx}
-                  style={{
-                    padding: '8px 16px',
-                    background: n.read ? 'white' : '#f0f8ff',
-                    borderBottom: '1px solid #eee',
-                  }}
+              sortedNotifications.map((notification) => (
+                <div
+                  key={notification.id}
+                  className={`p-3 border-b hover:bg-gray-50 ${
+                    !notification.read_status ? 'bg-blue-50' : ''
+                  }`}
                 >
-                  {n.message}
-                </li>
+                  <p className="text-sm text-gray-800 line-clamp-2">
+                    {notification.message}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {new Date(notification.created_at).toLocaleDateString()}
+                  </p>
+                </div>
               ))
             )}
-          </ul>
+          </div>
+
+          <div className="p-3 border-t border-gray-200">
+            <Link
+              to={
+                window.location.pathname.includes('/admin') ? '/admin/notifications' :
+                window.location.pathname.includes('/dhead') ? '/dhead/notifications' :
+                window.location.pathname.includes('/officer') ? '/officer/notifications' :
+                '/citizen/notifications'
+              }
+              className="block text-center text-sm text-blue-600 hover:text-blue-700 font-medium"
+              onClick={() => setShowDropdown(false)}
+            >
+              View All Notifications
+            </Link>
+          </div>
         </div>
+      )}
+
+      {showDropdown && (
+        <div
+          className="fixed inset-0 z-40"
+          onClick={() => setShowDropdown(false)}
+        />
       )}
     </div>
   );
-};
-
-export default NotificationBell;
+}

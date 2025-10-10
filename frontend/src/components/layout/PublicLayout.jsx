@@ -16,13 +16,13 @@ const PublicLayout = () => {
     if (!user) return "/";
     switch (user.role) {
       case "citizen":
-        return "/citizen/dashboard";
+        return "/citizen/services";
       case "officer":
-        return "/officer/dashboard";
+        return "/officer/requests";
       case "dhead":
-        return "/dhead/dashboard";
+        return "/dhead/requests";
       case "admin":
-        return "/admin/dashboard";
+        return "/admin/analytics";
       default:
         return "/";
     }

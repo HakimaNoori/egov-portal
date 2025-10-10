@@ -11,7 +11,14 @@ export const tagTypes = {
   requests: "Requests",
   document: "Document",
   documents: "Documents",
-}
+  payment: "Payment",
+  payments: "Payments",
+  service: "Service",
+  services: "Services",
+  notification: "Notification",
+  notifications: "Notifications",
+  myNotification: "MyNotification",
+};
 
 export const baseApiSlice = createApi({
   reducerPath: "api",

@@ -1,18 +1,24 @@
-import { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import {
-  useGetMyPaymentsQuery,
-  useUpdatePaymentMethodMutation,
-} from "../../redux/services/paymentApiSlice";
+import { useGetAllPaymentsQuery, useConfirmOrRejectPaymentMutation } from "../../redux/services/paymentApiSlice";
 import PaymentStatusBadge from "../../components/payments/PaymentStatusBadge";
 
-export default function CitizenPaymentDetails() {
+export default function AdminPaymentDetails() {
   const { id } = useParams();
-  const { data: payments = [], isLoading } = useGetMyPaymentsQuery();
-  const [updateMethod, { isLoading: updating }] = useUpdatePaymentMethodMutation();
+  const { data: payments = [], isLoading } = useGetAllPaymentsQuery();
+  const [confirmOrRejectPayment, { isLoading: updating }] = useConfirmOrRejectPaymentMutation();
 
   const payment = payments.find((p) => p.id === parseInt(id));
-  const [method, setMethod] = useState(payment?.method || "");
+
+  const handleStatusUpdate = async (newStatus) => {
+    if (!window.confirm(`Are you sure you want to ${newStatus} this payment?`)) return;
+    
+    try {
+      await confirmOrRejectPayment({ id: payment.id, status: newStatus }).unwrap();
+      alert(`Payment ${newStatus} successfully!`);
+    } catch (err) {
+      alert(err?.data?.message || err.message || "Status update failed");
+    }
+  };
 
   if (isLoading) {
     return (
@@ -34,18 +40,6 @@ export default function CitizenPaymentDetails() {
     );
   }
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    if (!method) return alert("Select a payment method");
-    
-    try {
-      await updateMethod({ id: payment.id, method }).unwrap();
-      alert("Payment method updated successfully!");
-    } catch (err) {
-      alert(err?.data?.message || err.message || "Update failed");
-    }
-  };
-
   return (
     <div className="p-6 space-y-6">
       {/* Header Section */}
@@ -57,7 +51,7 @@ export default function CitizenPaymentDetails() {
           </div>
         </div>
         <Link 
-          to="/citizen/payments" 
+          to="/admin/payments" 
           className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
         >
           Back to Payments
@@ -69,8 +63,21 @@ export default function CitizenPaymentDetails() {
         <h3 className="font-semibold text-gray-800 mb-4">Payment Information</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-700">
           <div>
+            <label className="text-sm text-gray-500">Payment ID</label>
+            <p className="font-medium">#{payment.id}</p>
+          </div>
+          <div>
+            <label className="text-sm text-gray-500">Citizen</label>
+            <p className="font-medium">{payment.User?.name || "N/A"}</p>
+            <p className="text-sm text-gray-500">{payment.User?.email}</p>
+          </div>
+          <div>
             <label className="text-sm text-gray-500">Service</label>
             <p className="font-medium">{payment.Request?.Service?.name || "N/A"}</p>
+          </div>
+          <div>
+            <label className="text-sm text-gray-500">Request ID</label>
+            <p className="font-medium">#{payment.request_id}</p>
           </div>
           <div>
             <label className="text-sm text-gray-500">Amount</label>
@@ -97,46 +104,26 @@ export default function CitizenPaymentDetails() {
         </div>
       </section>
 
-      {/* Update Payment Method - Only for pending payments */}
+      {/* Admin Actions */}
       {payment.status === "pending" && (
         <section className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
-          <h3 className="font-semibold text-gray-800 mb-4">Update Payment Method</h3>
-          <form onSubmit={handleUpdate} className="space-y-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Select Payment Method
-              </label>
-              <select
-                value={method}
-                onChange={(e) => setMethod(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                required
-              >
-                <option value="">Choose a method</option>
-                <option value="credit_card">Credit Card</option>
-                <option value="paypal">PayPal</option>
-                <option value="bank_transfer">Bank Transfer</option>
-                <option value="onsite">On-site</option>
-              </select>
-            </div>
-            
-            <div className="flex justify-end gap-2">
-              <button
-                type="button"
-                onClick={() => setMethod(payment.method)}
-                className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
-              >
-                Reset
-              </button>
-              <button
-                type="submit"
-                disabled={updating || method === payment.method}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {updating ? "Updating..." : "Update Method"}
-              </button>
-            </div>
-          </form>
+          <h3 className="font-semibold text-gray-800 mb-4">Admin Actions</h3>
+          <div className="flex gap-3">
+            <button
+              onClick={() => handleStatusUpdate("confirmed")}
+              disabled={updating}
+              className="px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+            >
+              {updating ? "Processing..." : "Confirm Payment"}
+            </button>
+            <button
+              onClick={() => handleStatusUpdate("rejected")}
+              disabled={updating}
+              className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50"
+            >
+              {updating ? "Processing..." : "Reject Payment"}
+            </button>
+          </div>
         </section>
       )}
     </div>
