@@ -23,7 +23,6 @@ import Unauthorized from "../pages/error/Unauthorized";
 // Role-Based Pages
 import {
   CitizenServices,
-  CitizenServiceDetails,
   CitizenRequests,
   CitizenRequestDetails,
   CitizenPayments,
@@ -90,10 +89,6 @@ const AppRoutes = () => {
           }
         >
           <Route path="/citizen/services" element={<CitizenServices />} />
-          <Route
-            path="/citizen/services/:id"
-            element={<CitizenServiceDetails />}
-          />
           <Route path="/citizen/requests" element={<CitizenRequests />} />
           <Route
             path="/citizen/requests/:id"

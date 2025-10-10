@@ -1,5 +1,4 @@
-export { default as CitizenServices } from "./CitizenServices";
-export { default as CitizenServiceDetails } from "./CitizenServiceDetails";
+export { default as CitizenServices } from "./CitizenServices";;
 export { default as CitizenRequests } from "./CitizenRequests";
 export { default as CitizenRequestDetails } from "./CitizenRequestDetails";
 export { default as CitizenPayments } from "./CitizenPayments";
