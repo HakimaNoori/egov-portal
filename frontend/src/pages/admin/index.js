@@ -8,4 +8,3 @@ export { default as AdminPaymentsList } from "./AdminPaymentsList";
 export { default as AdminPaymentDetails } from "./AdminPaymentDetails";
 export { default as AdminNotifications } from "./AdminNotifications";
 export { default as AdminProfile } from "./AdminProfile";
-export { default as AdminSettings } from "./AdminSettings";

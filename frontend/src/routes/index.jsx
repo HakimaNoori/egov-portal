@@ -45,7 +45,6 @@ import {
   DheadRequestDetails,
   DheadPaymentsList,
   DheadPaymentDetails,
-  DheadServicesList,
   DheadNotifications,
   DheadUserManagement,
   DheadProfile,
@@ -62,7 +61,6 @@ import {
   AdminPaymentDetails,
   AdminNotifications,
   AdminProfile,
-  AdminSettings,
 } from "../pages/admin";
 
 const AppRoutes = () => {
@@ -145,7 +143,6 @@ const AppRoutes = () => {
           <Route path="/dhead/requests/:id" element={<DheadRequestDetails />} />
           <Route path="/dhead/payments" element={<DheadPaymentsList />} />
           <Route path="/dhead/payments/:id" element={<DheadPaymentDetails />} />
-          <Route path="/dhead/services" element={<DheadServicesList />} />
           <Route path="/dhead/notifications" element={<DheadNotifications />} />
           <Route path="/dhead/profile" element={<DheadProfile />} />
         </Route>
@@ -170,7 +167,6 @@ const AppRoutes = () => {
           <Route path="/admin/payments/:id" element={<AdminPaymentDetails />} />
           <Route path="/admin/notifications" element={<AdminNotifications />} />
           <Route path="/admin/profile" element={<AdminProfile />} />
-          <Route path="/admin/settings" element={<AdminSettings />} />
         </Route>
 
         {/* Error Routes */}
