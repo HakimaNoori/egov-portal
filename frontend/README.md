@@ -17,11 +17,9 @@ frontend/
 │   │   │   ├── DheadLayout.jsx
 │   │   │   └── PublicLayout.jsx
 │   │   │
-│   │   ├── ui/                     # Common UI (buttons, modals, inputs, tables)
-│   │   │   ├── Button.jsx
-│   │   │   ├── Input.jsx
-│   │   │   ├── Modal.jsx
-│   │   │   ├── Table.jsx
+│   │   ├── ui/                     # Common UI (buttons, icons, logout, etc.)
+│   │   │   ├── Logo.jsx
+│   │   │   ├── LogoutButton.jsx
 │   │   │   └── NotificationBell.jsx
 │   │   │
 │   │   └── charts/                 # Reusable charts for analytics
@@ -93,23 +91,18 @@ frontend/
 │   │   ├── ProtectedRoute.jsx
 │   │   └── RoleBasedRoute.jsx
 │   │
-│   ├── services/                   # API calls (RTK Query or Axios)
-│   │   ├── api.js                  # axios instance
-│   │   ├── authService.js
-│   │   ├── userService.js
-│   │   ├── requestService.js
-│   │   ├── paymentService.js
-│   │   ├── serviceService.js
-│   │   └── notificationService.js
-│   │
-│   ├── store/                      # State management (Redux Toolkit)
-│   │   ├── index.js
-│   │   ├── authSlice.js
-│   │   ├── userSlice.js
-│   │   ├── requestSlice.js
-│   │   ├── paymentSlice.js
-│   │   ├── serviceSlice.js
-│   │   └── notificationSlice.js
+│   ├── redux/                      # Centralized Redux store and API slices
+│   │   ├── store.js                # Redux store configuration
+│   │   │
+│   │   └── services/               # RTK Query API slices & base logic
+│   │       ├── authApiSlice.js
+│   │       ├── authSlice.js
+│   │       ├── baseApiSlice.js
+│   │       ├── departmentApiSlice.js
+│   │       ├── notificationApiSlice.js
+│   │       ├── paymentApiSlice.js
+│   │       ├── requestApiSlice.js
+│   │       └── serviceApiSlice.js
 │   │
 │   ├── utils/                      # Utility functions
 │   │   ├── formatDate.js
