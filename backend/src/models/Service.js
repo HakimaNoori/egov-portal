@@ -1,4 +1,3 @@
-// models/Service.js
 import { DataTypes } from "sequelize";
 import sequelize from "../db.js";
 import Department from "./Department.js";
