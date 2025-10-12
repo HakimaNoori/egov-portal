@@ -32,7 +32,7 @@ export default function LoginPage() {
       if (role === "citizen") navigate("/citizen/services");
       else if (role === "officer") navigate("/officer/requests");
       else if (role === "dhead") navigate("/dhead/requests");
-      else if (role === "admin") navigate("/admin/analysis");
+      else if (role === "admin") navigate("/admin/analytics");
       else navigate("/");
     } catch (err) {
       toast.error(err?.data?.message || "Login failed ❌");
