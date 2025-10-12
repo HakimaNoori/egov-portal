@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useRegisterMutation } from "../../redux/services/authApiSlice";
 import { setCredentials } from "../../redux/services/authSlice";
 import { toast } from "react-toastify";
@@ -48,7 +48,9 @@ export default function RegisterPage() {
         </h2>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Full Name</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Full Name
+          </label>
           <input
             type="text"
             name="name"
@@ -61,7 +63,9 @@ export default function RegisterPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
           <input
             type="email"
             name="email"
@@ -74,7 +78,9 @@ export default function RegisterPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Password</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Password
+          </label>
           <input
             type="password"
             name="password"
@@ -96,9 +102,9 @@ export default function RegisterPage() {
 
         <p className="text-center text-sm text-gray-600">
           Already have an account?{" "}
-          <a href="/login" className="text-blue-600 hover:underline">
+          <Link to="/login" className="text-blue-600 hover:underline">
             Login here
-          </a>
+          </Link>
         </p>
       </form>
     </div>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useLoginMutation } from "../../redux/services/authApiSlice";
 import { setCredentials } from "../../redux/services/authSlice";
 import { toast } from "react-toastify";
@@ -32,7 +32,7 @@ export default function LoginPage() {
       if (role === "citizen") navigate("/citizen/services");
       else if (role === "officer") navigate("/officer/requests");
       else if (role === "dhead") navigate("/dhead/requests");
-      else if (role === "admin") navigate("/admin/analytics");
+      else if (role === "admin") navigate("/admin/analysis");
       else navigate("/");
     } catch (err) {
       toast.error(err?.data?.message || "Login failed ❌");
@@ -50,7 +50,9 @@ export default function LoginPage() {
         </h2>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Email</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Email
+          </label>
           <input
             type="email"
             name="email"
@@ -63,7 +65,9 @@ export default function LoginPage() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Password</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Password
+          </label>
           <input
             type="password"
             name="password"
@@ -85,9 +89,9 @@ export default function LoginPage() {
 
         <p className="text-center text-sm text-gray-600">
           Don’t have an account?{" "}
-          <a href="/register" className="text-blue-600 hover:underline">
+          <Link to="/register" className="text-blue-600 hover:underline">
             Register here
-          </a>
+          </Link>
         </p>
       </form>
     </div>
