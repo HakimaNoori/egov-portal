@@ -1,17 +1,49 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useListRequestsQuery } from "../../redux/services/requestApiSlice";
+import { useListServicesQuery } from "../../redux/services/serviceApiSlice";
 import RequestStatusBadge from "../../components/requests/RequestStatusBadge";
+import RequestFilters from "../../components/requests/RequestFilters";
+import { useRequestFilters } from "../../hooks/useRequestFilters";
 
 export default function OfficerRequestsList() {
-  const { data: requests = [], isLoading, isError } = useListRequestsQuery();
+  const { user } = useSelector(state => state.auth);
+  const departmentId = user?.department_id;
+  
+  // Get ALL requests and services
+  const { data: allRequests = [], isLoading, isError } = useListRequestsQuery();
+  const { data: allServices = [] } = useListServicesQuery();
 
-  // Calculate analytics from requests data
+  // Filter requests by department on frontend
+  const departmentRequests = allRequests.filter(request => 
+    request.Service?.department_id === departmentId
+  );
+
+  // Filter services by department on frontend
+  const departmentServices = allServices.filter(service => 
+    service.department_id === departmentId
+  );
+
+  // Get department name
+  const departmentName = departmentServices[0]?.Department?.name || 
+                        departmentRequests[0]?.Service?.Department?.name || 
+                        "Your Department";
+  
+  const {
+    filters,
+    filteredRequests,
+    updateFilter,
+    updateDateRange,
+    clearFilters
+  } = useRequestFilters(departmentRequests);
+
+  // Calculate analytics from filtered requests data
   const analytics = {
-    total: requests.length,
-    pending: requests.filter(r => r.status === 'pending').length,
-    reviewed: requests.filter(r => r.status === 'reviewed').length,
-    approved: requests.filter(r => r.status === 'approved').length,
-    rejected: requests.filter(r => r.status === 'rejected').length,
+    total: filteredRequests.length,
+    pending: filteredRequests.filter(r => r.status === 'pending').length,
+    reviewed: filteredRequests.filter(r => r.status === 'reviewed').length,
+    approved: filteredRequests.filter(r => r.status === 'approved').length,
+    rejected: filteredRequests.filter(r => r.status === 'rejected').length,
   };
 
   // Calculate percentages
@@ -27,9 +59,12 @@ export default function OfficerRequestsList() {
       {/* Header Section */}
       <section className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-gray-800">Request Reviews</h2>
+          <div>
+            <h2 className="text-xl font-semibold text-gray-800">Request Reviews</h2>
+            <p className="text-gray-600 mt-1">Overview of requests in {departmentName}</p>
+          </div>
           <div className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-lg">
-            Officer Dashboard
+            {departmentName}
           </div>
         </div>
 
@@ -41,6 +76,9 @@ export default function OfficerRequestsList() {
               <div>
                 <p className="text-sm font-medium text-blue-800">Total Requests</p>
                 <p className="text-2xl font-bold text-blue-900">{analytics.total}</p>
+                <p className="text-xs text-blue-700">
+                  {departmentRequests.length > 0 ? `${((filteredRequests.length / departmentRequests.length) * 100).toFixed(1)}% of all` : '0%'}
+                </p>
               </div>
               <div className="text-blue-600">
                 <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -142,12 +180,25 @@ export default function OfficerRequestsList() {
         </div>
       </section>
 
+      {/* Search & Filter Section with Department-Specific Services */}
+      <RequestFilters
+        filters={filters}
+        onFilterChange={updateFilter}
+        onDateRangeChange={updateDateRange}
+        onClearFilters={clearFilters}
+        services={departmentServices}
+      />
+
       {/* Requests Table Section */}
       <section className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">All Requests</h3>
+          <h3 className="text-lg font-semibold text-gray-800">
+            {departmentName} Requests {filteredRequests.length !== departmentRequests.length && 
+              `(${filteredRequests.length} of ${departmentRequests.length} filtered)`
+            }
+          </h3>
           <div className="text-sm text-gray-500">
-            Showing {requests.length} request{requests.length !== 1 ? 's' : ''}
+            Showing {filteredRequests.length} request{filteredRequests.length !== 1 ? 's' : ''}
           </div>
         </div>
 
@@ -155,6 +206,31 @@ export default function OfficerRequestsList() {
           <div className="text-center py-8">Loading requests...</div>
         ) : isError ? (
           <div className="text-center py-8 text-red-600">Failed to load requests</div>
+        ) : filteredRequests.length === 0 ? (
+          <div className="text-center py-8 text-gray-500">
+            <div className="flex flex-col items-center justify-center">
+              <svg className="w-12 h-12 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <p className="text-lg font-medium text-gray-600">
+                {departmentRequests.length === 0 ? `No requests in ${departmentName}` : 'No requests match your filters'}
+              </p>
+              <p className="text-sm text-gray-500 mt-1">
+                {departmentRequests.length === 0 
+                  ? `When citizens submit requests for ${departmentName} services, they will appear here.` 
+                  : 'Try adjusting your search criteria or clear filters.'
+                }
+              </p>
+              {departmentRequests.length > 0 && (
+                <button
+                  onClick={clearFilters}
+                  className="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  Clear All Filters
+                </button>
+              )}
+            </div>
+          </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full text-sm text-gray-700">
@@ -169,7 +245,7 @@ export default function OfficerRequestsList() {
                 </tr>
               </thead>
               <tbody>
-                {requests.map((r) => (
+                {filteredRequests.map((r) => (
                   <tr key={r.id} className="border-b hover:bg-gray-50 transition-colors duration-150">
                     <td className="px-4 py-3 font-medium">{r.id}</td>
                     <td className="px-4 py-3">
@@ -181,7 +257,7 @@ export default function OfficerRequestsList() {
                     <td className="px-4 py-3">
                       <div className="font-medium">{r.Service?.name ?? "—"}</div>
                       <div className="text-xs text-gray-500">
-                        {r.Service?.Department?.name ?? "Department"}
+                        {r.Service?.Department?.name ?? departmentName}
                       </div>
                     </td>
                     <td className="px-4 py-3">
@@ -204,19 +280,6 @@ export default function OfficerRequestsList() {
                     </td>
                   </tr>
                 ))}
-                {requests.length === 0 && (
-                  <tr>
-                    <td colSpan="6" className="px-4 py-8 text-center text-gray-500">
-                      <div className="flex flex-col items-center justify-center">
-                        <svg className="w-12 h-12 text-gray-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        <p className="text-lg font-medium text-gray-600">No requests found</p>
-                        <p className="text-sm text-gray-500 mt-1">When requests are assigned to your department, they will appear here.</p>
-                      </div>
-                    </td>
-                  </tr>
-                )}
               </tbody>
             </table>
           </div>
